@@ -176,32 +176,36 @@ class LLStr {
    **/
 
   insertAt(idx: number, val: string): void {
-    if (this.head === null || this.tail === null) throw new IndexError;
-    if (idx > this.length - 1 || idx < 0) throw new IndexError
+    // if (this.head === null || this.tail === null) throw new IndexError;
+    if ((idx > this.length) && this.length > 0 || idx < 0) throw new IndexError
 
-    let current = this.head;
-
-    if(this.length === 1){
+    if(this.head === null || this.tail === null){
       const newNode = new NodeStr(val);
       this.head = newNode;
-      this.head.next = current;
-      this.tail = current;
+      this.tail = newNode;
       this.length++;
       return;
     }
 
+    let current = this.head;
+
     if(idx === 0){
       this.head = new NodeStr(val);
-      this.head.next = current.next;
+      this.head.next = current;
+      if (this.length === 1) {
+        this.tail = current;
+      }
+      this.length++;
       return;
     }
 
     for(let i = 0; i <= idx; i++){
       if (i === idx - 1) {
-        const followingNode = current.next!.next;
+        const followingNode = current.next;
         current.next = new NodeStr(val);
         current.next.next = followingNode;
         if(followingNode === null) this.tail = current.next
+        this.length++;
         return
       }
 
@@ -215,7 +219,34 @@ class LLStr {
    **/
 
   removeAt(idx: number): string {
-    return "x";
+    if (this.head === null || this.tail === null) throw new IndexError;
+    if (idx > this.length - 1 || idx < 0) throw new IndexError
+
+    let current = this.head
+
+    if (idx === 0) {
+      this.head = current.next;
+      this.length--;
+      if (this.length === 0) {
+        this.head = null;
+        this.tail = null;
+      }
+      return current.val;
+    }
+
+    for(let i = 0; i <= idx; i++){
+      if(i === idx - 1){
+        const removedVal = current.next!.val;
+        const followingNode = current.next!.next;
+        current.next = followingNode;
+        this.length--;
+        return removedVal;
+      }
+
+      if (current.next) current = current.next;
+    }
+
+    throw new IndexError;
   }
 
   /** toArray (useful for tests!) */
