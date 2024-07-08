@@ -72,7 +72,26 @@ class LLStr {
    **/
 
   pop(): string {
-    return "x";
+    if (this.head === null || this.tail === null ) throw new IndexError;
+
+    const val = this.tail?.val;
+    let current = this.head;
+    let prev = this.head;
+
+    while (current.next) {
+      prev = current;
+      current = current.next;
+    }
+    prev.next = null;
+    this.tail = prev;
+    this.length -= 1;
+
+    if(this.length === 0) {
+      this.head = null;
+      this.tail = null;
+    }
+
+    return val
   }
 
   /** shift(): return & remove first item.
