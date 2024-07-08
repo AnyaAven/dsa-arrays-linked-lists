@@ -124,6 +124,15 @@ describe("setAt", function () {
     expect(lst.length).toBe(2);
   });
 
+  it("sets val at index with a length of one", function () {
+    const lst = new LL(["a"]);
+
+    lst.setAt(0, "A");
+    expect(lst.head!.val).toBe("A");
+    expect(lst.tail!.val).toBe("A");
+    expect(lst.length).toBe(1);
+  });
+
   it("throws error when out of range", function () {
     const lst = new LL(["a"]);
 
@@ -152,6 +161,15 @@ describe("insertAt", function () {
     expect(lst.head!.val).toBe("0");
     expect(lst.tail!.val).toBe("4");
     expect(lst.length).toBe(5);
+  });
+
+  it("insert into a length of 1", function () {
+    const lst = new LL(["a"]);
+
+    lst.insertAt(0, "z");
+    expect(lst.head!.val).toBe("z");
+    expect(lst.tail!.val).toBe("a");
+    expect(lst.length).toBe(2);
   });
 
   it("inserts into empty list", function () {
