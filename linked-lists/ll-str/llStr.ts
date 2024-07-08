@@ -43,7 +43,7 @@ class LLStr {
     const newNode = new NodeStr(val);
 
     if (this.head === null) this.head = newNode;
-    if (this.tail !== null) this.tail.next = newNode;
+    else if (this.tail !== null) this.tail.next = newNode;
 
     this.tail = newNode;
 
