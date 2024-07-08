@@ -125,7 +125,7 @@ class LLStr {
 
     let current = this.head;
     for(let i = 0; i <= idx; i++){
-      if (i == idx) return current.val;
+      if (i === idx) return current.val;
       if (current.next) current = current.next;
       else throw new IndexError;
     }
@@ -139,6 +139,35 @@ class LLStr {
    **/
 
   setAt(idx: number, val: string): void {
+    if (this.head === null || this.tail === null) throw new IndexError;
+    if (idx > this.length - 1 || idx < 0) throw new IndexError
+
+    let current = this.head;
+
+    if(this.length === 1){
+      const newNode = new NodeStr(val);
+      this.head = newNode;
+      this.tail = newNode;
+      return;
+    }
+
+    if(idx === 0){
+      this.head = new NodeStr(val);
+      this.head.next = current.next;
+      return;
+    }
+
+    for(let i = 0; i <= idx; i++){
+      if (i === idx - 1) {
+        const followingNode = current.next!.next;
+        current.next = new NodeStr(val);
+        current.next.next = followingNode;
+        if(followingNode === null) this.tail = current.next
+        return
+      }
+
+      if (current.next) current = current.next;
+    }
   }
 
   /** insertAt(idx, val): add node w/val before idx.
@@ -147,6 +176,37 @@ class LLStr {
    **/
 
   insertAt(idx: number, val: string): void {
+    if (this.head === null || this.tail === null) throw new IndexError;
+    if (idx > this.length - 1 || idx < 0) throw new IndexError
+
+    let current = this.head;
+
+    if(this.length === 1){
+      const newNode = new NodeStr(val);
+      this.head = newNode;
+      this.head.next = current;
+      this.tail = current;
+      this.length++;
+      return;
+    }
+
+    if(idx === 0){
+      this.head = new NodeStr(val);
+      this.head.next = current.next;
+      return;
+    }
+
+    for(let i = 0; i <= idx; i++){
+      if (i === idx - 1) {
+        const followingNode = current.next!.next;
+        current.next = new NodeStr(val);
+        current.next.next = followingNode;
+        if(followingNode === null) this.tail = current.next
+        return
+      }
+
+      if (current.next) current = current.next;
+    }
   }
 
   /** removeAt(idx): return & remove item at idx,
