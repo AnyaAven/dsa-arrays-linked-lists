@@ -100,7 +100,18 @@ class LLStr {
    **/
 
   shift(): string {
-    return "x";
+    if (this.head === null || this.tail === null) throw new IndexError;
+
+    const firstVal = this.head.val;
+    this.head = this.head.next;
+    this.length -= 1;
+
+    if(this.length === 0) {
+      this.head = null;
+      this.tail = null;
+    }
+
+    return firstVal;
   }
 
   /** getAt(idx): get val at idx.
@@ -109,7 +120,17 @@ class LLStr {
    **/
 
   getAt(idx: number): string {
-    return "x";
+    if (this.head === null || this.tail === null) throw new IndexError;
+    if (idx > this.length - 1) throw new IndexError
+
+    let current = this.head;
+    for(let i = 0; i <= idx; i++){
+      if (i == idx) return current.val;
+      if (current.next) current = current.next;
+      else throw new IndexError;
+    }
+
+    throw new IndexError;
   }
 
   /** setAt(idx, val): set val at idx to val.
