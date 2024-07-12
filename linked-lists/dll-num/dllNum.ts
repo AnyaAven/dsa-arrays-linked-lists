@@ -42,11 +42,33 @@ class DLLNum {
   /** push(val): add new value to end of list. */
 
   push(val: number): void {
+    const newNode = new DLLNodeNum(val);
+    if (this.head === null) this.head = newNode;
+    else if (this.tail !== null){
+      this.tail.next = newNode;
+      newNode.prev = this.tail;
+    }
+
+    this.tail = newNode;
+
+    this.length++;
   }
 
   /** unshift(val): add new value to start of list. */
 
   unshift(val: number): void {
+    const newNode = new DLLNodeNum(val);
+    if(this.head === null){
+      this.head = newNode;
+      this.tail = newNode;
+    }
+    else {
+      newNode.next = this.head;
+      this.head.prev = newNode;
+      this.head = newNode;
+    }
+
+    this.length++;
   }
 
   /** pop(): return & remove last item.
@@ -55,7 +77,21 @@ class DLLNum {
    **/
 
   pop(): number {
-    return 42;
+    if (this.head === null || this.tail === null) throw new IndexError;
+
+    let val = this.tail.val;
+    if (this.length === 1) {
+      this.head = null;
+      this.tail = null;
+    }
+    else {
+      const prev = this.tail.prev;
+      prev!.next = null;
+      this.tail = prev;
+    }
+    this.length--;
+
+    return val;
   }
 
   /** shift(): return & remove first item.
